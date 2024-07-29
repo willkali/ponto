@@ -1,0 +1,42 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <!-- REFERENCIA CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    
+    <!-- REFERENCIA JS -->
+    <script src="{{ url_for('scripts', filename='jQuery.js') }}"></script>
+    <script src="{{ url_for('scripts', filename='bootstrap.min.js') }}"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout') }}"><i class="fa fa-sign-out-alt"></i> Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container text-center mt-5">
+        <h1>Bem-vindo, {{ nome_completo }}!</h1>
+        <div class="mt-4">
+            <a href="{{ url_for('registro_ponto') }}" class="btn btn-primary btn-lg mx-2">
+                <i class="fa fa-clock"></i> Registrar Ponto
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>

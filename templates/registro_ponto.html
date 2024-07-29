@@ -1,0 +1,59 @@
+<!-- registro_ponto.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Ponto</title>
+
+    <!-- REFERENCIA CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='registro_ponto.css') }}">
+
+    <!-- REFERENCIA JS -->
+    <script src="{{ url_for('scripts', filename='jQuery.js') }}"></script>
+    <script src="{{ url_for('scripts', filename='relogio.js') }}"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" ><i class="fa fa-tachometer-alt"></i> Registro de Ponto</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout') }}"><i class="fa fa-sign-out-alt"></i> Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="card mt-5 shadow">
+            <div class="card-header text-center">
+                <h1>Bem-vindo, {{ nome }}!</h1>
+            </div>
+            <div class="card-body text-center">
+                <div id="relogio-container">
+                    <div id="data" class="mb-2"></div>
+                    <div id="hora" class="mb-4"></div>
+                </div>
+                <form method="post" class="mb-3">
+                    {% if estado == 'entrada' %}
+                    <button type="submit" name="action" value="entrada" class="btn btn-primary">Registrar Entrada</button>
+                    {% elif estado == 'intervalo_inicio' %}
+                    <button type="submit" name="action" value="intervalo_inicio" class="btn btn-warning">Intervalo</button>
+                    <button type="submit" name="action" value="saida" class="btn btn-danger">Registrar Saída</button>
+                    {% elif estado == 'intervalo_fim' %}
+                    <button type="submit" name="action" value="intervalo_fim" class="btn btn-success">Retorno de Intervalo</button>
+                    {% elif estado == 'saida' %}
+                    <button type="submit" name="action" value="saida" class="btn btn-danger">Registrar Saída</button>
+                    {% endif %}
+                </form>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Voltar</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

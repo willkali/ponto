@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Controle de Registros</title>
+
+    <!-- REFERENCIA CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='controle_registro_usuario.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.css') }}" />
+    <style>
+        .positive {
+            color: green;
+        }
+
+        .negative {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand"><i class="fa fa-tachometer-alt"></i> Controle de Registros</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout') }}"><i class="fa fa-sign-out-alt"></i> Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Controle de Registros de Ponto</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Entrada</th>
+                    <th>Intervalo Início</th>
+                    <th>Intervalo Fim</th>
+                    <th>Saída</th>
+                    <th>Total</th>
+                    <th>Saldo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if registros %}
+                {% for registro in registros %}
+                <tr>
+                    <td>{{ registro.entrada.strftime('%d/%m/%Y') }}</td>
+                    <td>{{ registro.entrada.strftime('%H:%M:%S') }}</td>
+                    <td>{{ registro.intervalo_inicio.strftime('%H:%M:%S') if registro.intervalo_inicio else '' }}</td>
+                    <td>{{ registro.intervalo_fim.strftime('%H:%M:%S') if registro.intervalo_fim else '' }}</td>
+                    <td>{{ registro.saida.strftime('%H:%M:%S') if registro.saida else '' }}</td>
+                    <td>{{ registro.total_horas_trabalhadas }}</td>
+                    <td class="{{ registro.saldo_class }}">{{ registro.saldo }}</td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="7">Nenhum registro encontrado.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        <form action="{{ url_for('gerar_pdf', user_id=registro['id']) }}" method="post">
+            <button type="submit" class="btn btn-primary">Gerar PDF</button>
+        </form>
+        <a href="{{ url_for('controle_registros') }}" class="btn btn-secondary">Voltar</a>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+<!-- adimin.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel de Administração</title>
+
+  <!-- REFERENCIA CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.css') }}" />
+
+  <!-- REFERENCIA JS -->
+  <script src="{{ url_for('scripts', filename='jQuery.js') }}"></script>
+  <script src="{{ url_for('scripts', filename='popper.js') }}"></script>
+  <script src="{{ url_for('scripts', filename='bootstrap.min.js') }}"></script>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand"><i class="fas fa-user-cog"></i> Admin</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('logout') }}"><i class="fa fa-sign-out-alt"></i> Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <div class="card">
+      <div class="card-header text-center">
+        <h2>Painel de Administração</h2>
+      </div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Sobrenome</th>
+              <th>E-mail</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in users %}
+            <tr>
+              <td>{{ user[0] }}</td>
+              <td>{{ user[1] }}</td>
+              <td>{{ user[2] }}</td>
+              <td>{{ user[3] }}</td>
+              <td>
+                <form action="{{ url_for('edit_register', user_id=user[0]) }}" method="post" style="display: inline">
+                  <input type="hidden" name="action" value="edit" />
+                  <button type="submit" class="btn btn-warning btn-sm">Editar</button>
+                </form>
+                <form action="{{ url_for('admin') }}" method="post" style="display: inline">
+                  <input type="hidden" name="user_id" value="{{ user[0] }}" />
+                  <input type="hidden" name="action" value="delete" />
+                  <button type="submit" class="btn btn-danger btn-sm">Deletar</button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <a href="{{ url_for('register') }}" class="btn btn-success">
+      <i class="fa fa-user-plus"></i> Adicionar Novo Usuário
+    </a>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Voltar</a>
+  </div>
+</body>
+
+</html>
